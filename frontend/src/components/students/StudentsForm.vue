@@ -1,0 +1,122 @@
+<template>
+  <q-form>
+    <div class="row q-col-gutter-sm">
+      <div class="col-6">
+        <q-input
+          v-model="student.name"
+          outlined
+          rounded
+          label="Nome completo"
+        />
+      </div>
+      <div class="col-6">
+        <q-input
+          v-model="student.email"
+          outlined
+          rounded
+          label="Email"
+          placeholder="sintese@exemplo.com.br"
+        />
+      </div>
+      <div class="col-6">
+        <div class="relative-position">
+          <q-input
+            v-model="student.contact"
+            outlined
+            rounded
+            mask="(##) #####-####"
+            placeholder="(xx) xxxxx-xxxx"
+            label="Telefone"  
+          />
+          <q-btn
+            @click.stop="student.contact_isWpp = !student.contact_isWpp"
+            class="btn-max-width absolute-right"
+            size="large"
+            unelevated
+            :ripple="false"
+            rounded
+            :outline="!student.contact_isWpp"
+            color="primary"
+          >
+            <q-icon>
+              <MainIcon name="whatsapp" />
+            </q-icon>
+            <span class="text-caption">Tem whatsapp?</span>
+          </q-btn>
+        </div>
+      </div>
+      <div class="col-6">
+        <q-input
+          label="Data de nascimento"
+          v-model="student.birthday"
+          mask="##/##/####"
+          outlined
+          rounded
+          placeholder="xx/xx/xxxx"
+          :suffix="ageCalculator + ' anos'"
+        >
+          <template v-slot:prepend>
+            <q-icon>
+              <MainIcon name="calendar" />
+            </q-icon>
+          </template>
+        </q-input>
+      </div>
+      <div v-if="ageCalculator < 18" class="col-6">
+        <q-input
+          label="Nome do responsável"
+          outlined
+          rounded
+        />
+      </div>
+      <div v-if="ageCalculator < 18" class="col-6">
+        <q-input
+          label="Contato do responsável"
+          mask="(##) #####-####"
+          placeholder="(xx) xxxxx-xxxx"
+          outlined
+          rounded
+        />
+      </div>
+      <div class="col-12">
+        <q-select
+          v-model="student.classId"
+          outlined
+          rounded
+          label="Turma"  
+        />
+      </div>
+    </div>
+  </q-form>
+</template>
+
+<script>
+  import { mapGetters } from 'vuex'
+  import MainIcon from '@/components/icons/MainIcon.vue'
+
+  export default {
+    components: {
+      MainIcon
+    },
+    computed: {
+      ...mapGetters('students', {
+        student: 'GET_STUDENT'
+      }),
+      ageCalculator(){
+        if(!this.student.birthday) return 'xx'
+
+        let currentYear = new Date().getFullYear()
+        let birthdayYear = this.student.birthday.split('/')[2]
+
+        return currentYear - birthdayYear
+      }
+    },
+  }
+</script>
+
+<style>
+  .btn-max-width {
+    max-width: 160px;
+    z-index: 1;
+  }
+</style>
