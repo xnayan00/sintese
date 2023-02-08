@@ -17,7 +17,7 @@
           label="Professor"
         />
       </div>
-      <div class="col-4">
+      <div class="col-6">
         <q-input
           v-model="team.time_start"
           outlined
@@ -26,21 +26,13 @@
           label="Horário de início"
         />
       </div>
-      <div class="col-4">
+      <div class="col-6">
         <q-input
           v-model="team.time_end"
           outlined
           rounded
           mask="##:##"
           label="Horário de término"
-        />
-      </div>
-      <div class="col-4">
-        <q-input
-          v-model="team.price"
-          outlined
-          rounded
-          label="Preço"
         />
       </div>
     </div>
