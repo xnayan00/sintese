@@ -1,21 +1,21 @@
 const mongoose = require("mongoose")
 
-var currentDate = new Date()
-currentDate.setHours(currentDate.getHours() - 2.7)
-
 const UsersSchema = new mongoose.Schema(
     {
         name: String,
         email: String,
         contact: String,
+        contactIsWpp: Boolean,
+        status: {
+            type: Boolean,
+            default: true
+        },
         birthday: Date,
         createdAt: Date,
         updatedAt: Date,
     },
     {
-        timestamps: {
-            currentTime: () => currentDate
-        }
+        timestamps: true
     }
 )
 
