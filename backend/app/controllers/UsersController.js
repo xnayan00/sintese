@@ -2,7 +2,7 @@ const UsersModel = require("../models/UsersModel")
 
 module.exports.index = async (req, res) => {
     try {
-        const users = await UsersModel.find()
+        const users = await UsersModel.find().sort({ createdAt: -1 })
 
         if(users.length == 0) return res.status(404).json({msg: "Nenhum usuário encontrado"})
     
