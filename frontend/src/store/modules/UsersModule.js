@@ -2,6 +2,7 @@ import {
   SET_USERS,
   SET_USER,
   UPDATE_USER,
+  DELETE_USER,
   GET_USERS,
   GET_USER,
   MUTATE_USERS,
@@ -73,10 +74,19 @@ export default {
         })
     },
     [UPDATE_USER] ({ state }, value) {
-      console.log(value);
       http.patch(`/users/${state.current._id}`, value)
-        .then(res => {
-          console.log(res.data.data);
+        .then(() => {
+          // 
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    },
+    [DELETE_USER] ({ state }) {
+      http.delete(`/users/${state.current._id}`)
+        .then(() => {
+          let idx = state.all.indexOf(state.current)
+          state.all.splice(idx, 1)
         })
         .catch(err => {
           console.error(err);
