@@ -77,11 +77,14 @@
         this.MUTATE_USER(item)
         this.TOGGLE_DRAWER()
       },
-      updateUserStatus(id){
-        console.log(id);
+      updateUserStatus(item){
+        item.status = !item.status
+        this.MUTATE_USER(item)
+        this.UPDATE_USER({status: item.status})
       },
-      deleteUser(id){
-        console.log(id);
+      deleteUser(item){
+        this.MUTATE_USER(item)
+        this.DELETE_USER()
       },
       openModal(item){
         this.MUTATE_MODAL_TITLE(item.name ? item.name : 'Novo Usuário')
@@ -97,7 +100,9 @@
         'MUTATE_USER'
       ]),
       ...mapActions('users', [
-        'SET_USERS'
+        'SET_USERS',
+        'UPDATE_USER',
+        'DELETE_USER'
       ])
     },
     created(){
