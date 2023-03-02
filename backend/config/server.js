@@ -33,6 +33,9 @@ app.use("/teams", TeamsRoutes)
 const ModalitiesRoutes = require("../app/routes/ModalitiesRoutes.js")
 app.use("/modalities", ModalitiesRoutes)
 
+const InvoicingsRoutes = require("../app/routes/InvoicingsRoutes.js")
+app.use("/invoicings", InvoicingsRoutes)
+
 //===========================
 // Autoload da conexão com o
 // banco de dados
