@@ -53,7 +53,54 @@
             </q-item-section>
 
             <q-item-section side center>
-              <q-btn @click="" color="positive" outline rounded>Nova entrada</q-btn>
+              <q-btn
+                @click="invoicingForm = true"
+                color="positive"
+                outline
+                rounded
+              >
+                Nova entrada
+              </q-btn>
+              <q-dialog v-model="invoicingForm" persistent>
+                <q-card flat class="form-modal-width bg-transparent q-pt-xl">
+                  <q-card-section class="bg-primary text-white form-modal__title">
+                    <span class="text-h6">Nova entrada</span>
+                  </q-card-section>
+
+                  <q-card-section class="rounded-top bg-white q-pt-xl q-px-lg">
+                    <q-form>
+                      <div class="row q-col-gutter-md">
+                        <div class="col-12">
+                          <q-select
+                            label="Contribuinte"
+                            outlined
+                            rounded
+                          />
+                        </div>
+                        <div class="col-8">
+                          <q-select
+                            label="Referência"
+                            outlined
+                            rounded
+                          />
+                        </div>
+                        <div class="col-4">
+                          <q-input
+                            label="Valor"
+                            outlined
+                            rounded
+                          />
+                        </div>
+                      </div>
+                    </q-form>
+                  </q-card-section>
+
+                  <q-card-actions class="bg-white rounded-bottom q-px-lg" align="right">        
+                    <q-btn v-close-popup label="cancelar" rounded flat color="primary" />
+                    <q-btn class="form-modal__action-btn" rounded label="Salvar" color="primary" />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
             </q-item-section>
           </q-item>
         </q-list>
@@ -102,7 +149,53 @@
             </q-item-section>            
 
             <q-item-section side center>
-              <q-btn color="negative" outline rounded>Nova saída</q-btn>
+              <q-btn
+                @click="outgoingForm = true"
+                color="negative"
+                outline
+                rounded
+              >
+                Nova saída
+              </q-btn>              
+              <q-dialog v-model="outgoingForm" persistent>
+                <q-card flat class="form-modal-width bg-transparent q-pt-xl">
+                  <q-card-section class="bg-primary text-white form-modal__title">
+                    <span class="text-h6">Nova saída</span>
+                  </q-card-section>
+                  <q-card-section class="rounded-top bg-white q-pt-xl q-px-lg">
+                    <q-form>
+                      <div class="row q-col-gutter-md">
+                        <div class="col-12">
+                          <q-select
+                            label="Destinatário"
+                            outlined
+                            rounded
+                          />
+                        </div>
+                        <div class="col-8">
+                          <q-select
+                            label="Referência"
+                            outlined
+                            rounded
+                          />
+                        </div>
+                        <div class="col-4">
+                          <q-input
+                            label="Valor"
+                            outlined
+                            rounded
+                          />
+                        </div>
+                      </div>
+                    </q-form>
+                  </q-card-section>
+
+                  <q-card-actions class="bg-white rounded-bottom q-px-lg" align="right">        
+                    <q-btn v-close-popup label="cancelar" rounded flat color="primary" />
+                    <q-btn class="form-modal__action-btn" rounded label="Salvar" color="primary" />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
             </q-item-section>
           </q-item>
         </q-list>  
@@ -148,7 +241,9 @@
         proxyDate: {
           from: new Date(Date.now()).toISOString().slice(0, 10).split('-').join('/'),
           to: new Date(Date.now()).toISOString().slice(0, 10).split('-').join('/'),
-        }
+        },
+        invoicingForm: false,
+        outgoingForm: false,
       }
     },
     computed: {
@@ -164,7 +259,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .list-item {
     border-radius: 7px;
     padding: 1em 2em;
@@ -175,5 +270,33 @@
 
   .pill {
     border-radius: 7px;
+  }
+  .form-modal{
+    &-width {
+      min-width: 600px;
+      max-width: 800px;
+    }
+    &__action-btn {
+      width: 100px;
+    }
+    &__title {
+      border-radius: 25px!important;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 300px;
+      height: 50px;
+      left: 50%;
+      top: 25px;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+  }
+  .rounded-top {
+    border-radius: 15px 15px 0 0!important;
+  }
+  .rounded-bottom {
+    border-radius: 0 0 15px 15px!important;
   }
 </style>
