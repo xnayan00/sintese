@@ -24,7 +24,7 @@
 <script>
   import MainIcon from '@/components/icons/MainIcon.vue'
   import DataTable from '@/components/data-table/DataTable.vue'
-  import { mapMutations } from 'vuex'
+  import { mapMutations, mapActions } from 'vuex'
 
   export default {
     components: {
@@ -77,11 +77,14 @@
         this.MUTATE_USER(item)
         this.TOGGLE_DRAWER()
       },
-      updateUserStatus(id){
-        console.log(id);
+      updateUserStatus(item){
+        item.status = !item.status
+        this.MUTATE_USER(item)
+        this.UPDATE_USER({status: item.status})
       },
-      deleteUser(id){
-        console.log(id);
+      deleteUser(item){
+        this.MUTATE_USER(item)
+        this.DELETE_USER()
       },
       openModal(item){
         this.MUTATE_MODAL_TITLE(item.name ? item.name : 'Novo Usuário')
@@ -94,21 +97,16 @@
         'MUTATE_MODAL_TITLE',
       ]),
       ...mapMutations('users', [
-        'MUTATE_USERS',
         'MUTATE_USER'
       ]),
+      ...mapActions('users', [
+        'SET_USERS',
+        'UPDATE_USER',
+        'DELETE_USER'
+      ])
     },
     created(){
-      let user = {
-        _id: 77,
-        name: 'Pietra F. Trovo',
-        contact: '(41) 99155-0203',
-        birthday: '15/10/1990',
-        email: 'pietra.trovo@gmail.com',
-        status: true,
-        createdAt: '01/01/2023'
-      }
-      this.MUTATE_USERS([user])
+      this.SET_USERS()
     },
   }
 </script>

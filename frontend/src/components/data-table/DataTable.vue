@@ -80,7 +80,7 @@
 
                 <q-separator />
 
-                <q-item clickable @click="$emit('updateStatus', props.row._id)"> <!-- Opção ATIVAR / DESATIVAR (padrão) -->
+                <q-item clickable @click="$emit('updateStatus', props.row)"> <!-- Opção ATIVAR / DESATIVAR (padrão) -->
                   <q-item-section side>
                     <q-icon :color="props.row.status ? 'negative' : 'positive'">
                       <MainIcon :name="props.row.status ? 'close-circle' : 'check-circle'" />
@@ -139,7 +139,7 @@
     <q-dialog v-model="deleteModal" persistent>
       <DeleteModal
         @closeModal="deleteModal = false"
-        @clicked="$emit('deleteItem', modalData._id)"
+        @clicked="deleteItem"
         :modalData="modalData"
         :columns="columns"
       />
@@ -182,6 +182,10 @@
       ...mapMutations('students', [
         'MUTATE_STUDENT'
       ]),
+      deleteItem(){
+        this.$emit('deleteItem', this.modalData)
+        this.deleteModal = false
+      }
     }
   }
 </script>

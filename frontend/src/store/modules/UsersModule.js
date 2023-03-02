@@ -1,11 +1,15 @@
 import {
   SET_USERS,
   SET_USER,
+  UPDATE_USER,
+  DELETE_USER,
   GET_USERS,
   GET_USER,
   MUTATE_USERS,
   MUTATE_USER
 } from '../mutation-types.js'
+
+import http from "../../http"
 
 export default {
   namespaced: true,
@@ -28,15 +32,65 @@ export default {
       state.all = value
     },
     [MUTATE_USER] (state, value) {
+      var { birthday, createdAt, updatedAt } = value
+      
+      function formatDate(item){
+        item = Date.parse(item)
+        item = item - 3*60*60*1000
+        item = new Date(item).toISOString()
+        return item.slice(0, 10).split('-').reverse().join('/')
+      }
+
+      if(birthday){
+        value.birthday = formatDate(birthday)
+      }
+      if(createdAt){
+        value.createdAt = formatDate(createdAt)
+      }
+      if(updatedAt){
+        value.updatedAt = formatDate(updatedAt)
+      }
+
       state.current = value
     }
   },
   actions: {
     [SET_USERS] ({ commit }, value) {
-      commit('MUTATE_USERS', value)
+      http.get('users')
+        .then(res => {
+          commit('MUTATE_USERS', res.data.data)
+        })
+        .catch(err => {
+          console.error(err);
+        })
     },
-    [SET_USER] ({ commit }, value) {
-      commit('MUTATE_USER', value)
+    [SET_USER] ({ state }, value) {
+      http.post('/users', value)
+        .then(res => {
+          state.all.unshift(res.data.data)
+        })
+        .catch(err => {
+          console.error(err);
+        })
     },
+    [UPDATE_USER] ({ state }, value) {
+      http.patch(`/users/${state.current._id}`, value)
+        .then(() => {
+          // 
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    },
+    [DELETE_USER] ({ state }) {
+      http.delete(`/users/${state.current._id}`)
+        .then(() => {
+          let idx = state.all.indexOf(state.current)
+          state.all.splice(idx, 1)
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    }
   }
 }
