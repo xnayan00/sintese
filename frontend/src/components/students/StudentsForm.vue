@@ -79,11 +79,42 @@
         />
       </div>
       <div class="col-12">
+        <q-separator class="q-my-md" />
+      </div>
+      <div class="col-6">
         <q-select
           v-model="student.classId"
           outlined
           rounded
-          label="Turma"  
+          dense
+          label="Turmas"  
+        />
+      </div>
+      <div class="col-5">
+        <q-input
+          v-model="student.classId"
+          outlined
+          rounded
+          dense
+          label="Valor da mensalidade"  
+        />
+      </div>
+      <div class="col-1">
+        <q-btn round outline color="primary">
+          <q-icon>
+            <MainIcon name="plus-circle" />
+          </q-icon>
+        </q-btn>
+      </div>
+      <div class="col-12">
+        <q-table
+          class="q-my-md"
+          :rows="teams"
+          :columns="columns"
+          dense
+          row-key="name"
+          no-data-label="Nenhuma turma adicionada"
+          hide-pagination
         />
       </div>
     </div>
@@ -98,6 +129,35 @@
     components: {
       MainIcon
     },
+    data: () => ({
+      teams: [],
+      columns: [
+        {
+          name: 'studentClass',
+          label: 'Turma',
+          align: 'left',
+          field: row => row.studentClass,
+        },
+        {
+          name: 'workload',
+          label: 'Período',
+          align: 'left',
+          field: row => row.studentClass,
+        },
+        {
+          name: 'studentClass',
+          label: 'Professor',
+          align: 'left',
+          field: row => row.studentClass,
+        },
+        {
+          name: 'classPrice',
+          label: 'Mensalidade',
+          align: 'center',
+          field: row => row.studentClass,
+        },
+      ]
+    }),
     computed: {
       ...mapGetters('students', {
         student: 'GET_STUDENT'
