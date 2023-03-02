@@ -72,21 +72,38 @@
                       <div class="row q-col-gutter-md">
                         <div class="col-12">
                           <q-select
+                            v-model="invoicing.contributor"
                             label="Contribuinte"
+                            :options="contributors"
+                            option-value="_id"
+                            option-label="name"
                             outlined
                             rounded
                           />
                         </div>
                         <div class="col-8">
                           <q-select
+                            v-model="invoicing.reference"
                             label="Referência"
+                            :options="references"
+                            option-value="_id"
                             outlined
                             rounded
-                          />
+                          >
+                          <template v-slot:option="scope">
+                            <q-item v-bind="scope.itemProps">
+                              <q-item-section>
+                                <q-item-label>{{ scope.opt._id }}</q-item-label>
+                                <q-item-label caption>{{ scope.opt.createdAt }}</q-item-label>
+                              </q-item-section>
+                            </q-item>
+                          </template>
+                          </q-select>
                         </div>
                         <div class="col-4">
                           <q-input
-                            label="Valor"
+                            v-model="invoicing.price"
+                            label="Valor R$"
                             outlined
                             rounded
                           />
@@ -97,32 +114,34 @@
 
                   <q-card-actions class="bg-white rounded-bottom q-px-lg" align="right">        
                     <q-btn v-close-popup label="cancelar" rounded flat color="primary" />
-                    <q-btn class="form-modal__action-btn" rounded label="Salvar" color="primary" />
+                    <q-btn @click="createInvoicing" class="form-modal__action-btn" rounded label="Salvar" color="primary" />
                   </q-card-actions>
                 </q-card>
               </q-dialog>
             </q-item-section>
           </q-item>
         </q-list>
+        
+        <h6 v-if="invoicings.length == 0" class="text-center text-grey-5">Nenhuma entrada</h6>
 
         <q-scroll-area
           :thumb-style="thumbStyle"
           :bar-style="barStyle"
           style="height: 65vh"
         >
-          <q-list v-for="n in 15" :key="n" padding>
-            <q-item class="list-item">
-              <q-item-section>
-                <q-item-label class="text-weight-bold text-grey-7">Yan Ricardo Mendes</q-item-label>
-                <q-item-label overline>11/01/2023</q-item-label>
+        <q-list padding>
+            <q-item v-for="(item, idx) in invoicings" class="list-item" :key="idx">
+              <!-- <q-item-section>
+                <q-item-label class="text-weight-bold text-grey-7">{{ item.contributor }}</q-item-label>
+                <q-item-label overline>{{ item.createdAt }}</q-item-label>
                 <q-item-label>
-                  <q-chip class="q-ml-none" size="12px" color="green-11">Hip-Hop</q-chip>
+                  <q-chip class="q-ml-none" size="12px" color="green-11">{{ item.reference }}</q-chip>
                 </q-item-label>
-              </q-item-section>
+              </q-item-section> -->
 
               
               <q-item-section side center>
-                <q-item-label class="text-h5 text-positive">R$ 90,00</q-item-label>
+                <q-item-label class="text-h5 text-positive">{{ item.price }}</q-item-label>
               </q-item-section>
             </q-item>
 
@@ -146,7 +165,7 @@
               <q-item-label class="text-subtitle2 text-negative text-weight-bold">
                 R$ 987,33
               </q-item-label>
-            </q-item-section>            
+            </q-item-section>
 
             <q-item-section side center>
               <q-btn
@@ -200,12 +219,14 @@
           </q-item>
         </q-list>  
 
+        <h6 v-if="invoicings.length == 0" class="text-center text-grey-5">Nenhuma saída</h6>
+
         <q-scroll-area
           :thumb-style="thumbStyle"
           :bar-style="barStyle"
           style="height: 65vh"
         >
-          <q-list v-for="n in 15" :key="n" padding>
+          <q-list v-for="n in outgoings" :key="n" padding>
             <q-item class="list-item">
               <q-item-section>
                 <q-item-label class="text-weight-bold text-grey-7">Thiago D. Stuart</q-item-label>
@@ -226,6 +247,7 @@
 
 <script>
   import MainIcon from '@/components/icons/MainIcon.vue'
+  import http from "@/http"
   export default {
     components: {
       MainIcon
@@ -242,6 +264,11 @@
           from: new Date(Date.now()).toISOString().slice(0, 10).split('-').join('/'),
           to: new Date(Date.now()).toISOString().slice(0, 10).split('-').join('/'),
         },
+        invoicing: {},
+        invoicings: [],
+        outgoings: [],
+        contributors: [],
+        references: [],
         invoicingForm: false,
         outgoingForm: false,
       }
@@ -255,7 +282,47 @@
 
         return fromDate + ' - ' + toDate
       }
-    }
+    },
+    methods: {
+      createInvoicing(){
+        http.post('/invoicings', this.invoicing)
+          .then(res => {
+            this.invoicings.unshift(res.data.data)
+          })
+          .catch(e => {
+            console.error(e);
+          })
+      },
+      getStudents(){
+        http.get('/students')
+          .then(res => {
+            this.contributors = res.data.data
+          })
+          .catch(e => {
+            console.error(e);
+          })
+      },
+      getTeams(){
+        http.get('/teams')
+          .then(res => {
+            this.references = res.data.data
+          })
+          .catch(e => {
+            console.error(e);
+          })
+      },
+    },
+    created(){
+      this.getStudents()
+      this.getTeams()
+      http.get('/invoicings')
+        .then(res => {
+          this.invoicings = res.data.data
+        })
+        .catch(e => {
+          console.error(e);
+        })
+    },
   }
 </script>
 
