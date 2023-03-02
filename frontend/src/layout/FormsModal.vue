@@ -24,8 +24,6 @@
   import UsersForm from '@/components/users/UsersForm.vue'
   import ModalitiesForm from '@/components/modalities/ModalitiesForm.vue'
   import TeamsForm from '@/components/teams/TeamsForm.vue'
-  import InvoicingForm from '@/components/financial/InvoicingForm.vue'
-  import OutgoingForm from '@/components/financial/OutgoingForm.vue'
   import MainIcon from '@/components/icons/MainIcon.vue'
 
   export default {
@@ -36,8 +34,6 @@
       MainIcon,
       ModalitiesForm,
       TeamsForm,
-      InvoicingForm,
-      OutgoingForm
     },
     computed: mapGetters('widgets', [
       'GET_MODAL',
