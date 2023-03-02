@@ -21,7 +21,22 @@ app.use(function(req, res, next){
 const UsersRoutes = require("../app/routes/UsersRoutes.js")
 app.use("/users", UsersRoutes)
 
-// Autoload da conexão com o banco de dados
+const TeachersRoutes = require("../app/routes/TeachersRoutes.js")
+app.use("/teachers", TeachersRoutes)
+
+const StudentsRoutes = require("../app/routes/StudentsRoutes.js")
+app.use("/students", StudentsRoutes)
+
+const TeamsRoutes = require("../app/routes/TeamsRoutes.js")
+app.use("/teams", TeamsRoutes)
+
+const ModalitiesRoutes = require("../app/routes/ModalitiesRoutes.js")
+app.use("/modalities", ModalitiesRoutes)
+
+//===========================
+// Autoload da conexão com o
+// banco de dados
+//===========================
 consign()
     .include("./config/database.js")
     .into(app)
