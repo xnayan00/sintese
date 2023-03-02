@@ -24,7 +24,7 @@
 <script>
   import MainIcon from '@/components/icons/MainIcon.vue'
   import DataTable from '@/components/data-table/DataTable.vue'
-  import { mapMutations } from 'vuex'
+  import { mapMutations, mapActions } from 'vuex'
 
   export default {
     components: {
@@ -58,8 +58,8 @@
           {
             name: 'workload',
             label: 'Horário',
-            align: 'left',
-            field: row => row.time_start + ' / ' + row.time_end,
+            align: 'center',
+            field: row => row.startTime + ' / ' + row.endTime,
             sortable: true
           },
           {
@@ -84,11 +84,14 @@
         this.MUTATE_TEAM(item)
         this.TOGGLE_DRAWER()
       },
-      updateTeamStatus(id){
-        console.log(id);
+      updateTeamStatus(item){
+        item.status = !item.status
+        this.MUTATE_TEAM(item)
+        this.UPDATE_TEAM({status: item.status})
       },
-      deleteTeam(id){
-        console.log(id);
+      deleteTeam(item){
+        this.MUTATE_TEAM(item)
+        this.DELETE_TEAM()
       },
       openModal(item){
         this.MUTATE_MODAL_TITLE(item.code ? item.code + ' - ' + item.modality : 'Nova Turma')
@@ -104,19 +107,14 @@
         'MUTATE_TEAMS',
         'MUTATE_TEAM'
       ]),
+      ...mapActions('teams', [
+        'SET_TEAMS',
+        'UPDATE_TEAM',
+        'DELETE_TEAM'
+      ])
     },
     created(){
-      let team = {
-        _id: 80,
-        code: "#01",
-        teacher: 'Mari',
-        modality: 'Ballet Adulto',
-        time_start: "15:30",
-        time_end: "16:30",
-        status: true,
-        createdAt: '26/01/2023'
-      }
-      this.MUTATE_TEAMS([team])
+      this.SET_TEAMS()
     },
   }
 </script>

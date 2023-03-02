@@ -25,7 +25,7 @@
           </div>
           <div class="col-6">
             <q-input
-              v-model="team.time_start"
+              v-model="team.startTime"
               outlined
               rounded
               mask="##:##"
@@ -34,7 +34,7 @@
           </div>
           <div class="col-6">
             <q-input
-              v-model="team.time_end"
+              v-model="team.endTime"
               outlined
               rounded
               mask="##:##"
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
   import MainIcon from '@/components/icons/MainIcon.vue'
 
   export default {
@@ -79,6 +79,20 @@
       ...mapGetters('teams', {
         team: 'GET_TEAM'
       }),
+    },
+    methods: {
+      ...mapActions('teams', [
+        'SET_TEAM',
+        'UPDATE_TEAM'
+      ]),
+      createTeam(){
+        this.SET_TEAM(this.team)
+        this.$emit('close')
+      },
+      updateTeam(){
+        this.UPDATE_TEAM(this.team)
+        this.$emit('close')
+      }
     },
   }
 </script>
