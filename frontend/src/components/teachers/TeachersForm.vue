@@ -94,7 +94,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
   import MainIcon from '@/components/icons/MainIcon.vue'
 
   export default {
@@ -104,7 +104,7 @@
     computed: {
       ...mapGetters('teachers', {
         teacher: 'GET_TEACHER'
-      }),      
+      }),
       ageCalculator(){
         if(!this.teacher.birthday) return 'xx'
 
@@ -112,6 +112,20 @@
         let birthdayYear = this.teacher.birthday.split('/')[2]
 
         return currentYear - birthdayYear
+      }
+    },
+    methods: {
+      ...mapActions('teachers', [
+        'SET_TEACHER',
+        'UPDATE_TEACHER'
+      ]),
+      createTeacher(){
+        this.SET_TEACHER(this.teacher)
+        this.$emit('close')
+      },
+      updateTeacher(){
+        this.UPDATE_TEACHER(this.teacher)
+        this.$emit('close')
       }
     },
   }

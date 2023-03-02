@@ -24,7 +24,7 @@
 <script>
   import MainIcon from '@/components/icons/MainIcon.vue'
   import DataTable from '@/components/data-table/DataTable.vue'
-  import { mapMutations } from 'vuex'
+  import { mapMutations, mapActions } from 'vuex'
 
   export default {
     components: {
@@ -77,11 +77,14 @@
         this.MUTATE_TEACHER(item)
         this.TOGGLE_DRAWER()
       },
-      updateTeacherStatus(id){
-        console.log(id);
+      updateTeacherStatus(item){
+        item.status = !item.status
+        this.MUTATE_TEACHER(item)
+        this.UPDATE_TEACHER({status: item.status})
       },
-      deleteTeacher(id){
-        console.log(id);
+      deleteTeacher(item){
+        this.MUTATE_TEACHER(item)
+        this.DELETE_TEACHER()
       },
       openModal(item){
         this.MUTATE_MODAL_TITLE(item.name ? item.name : 'Novo Professor')
@@ -97,18 +100,14 @@
         'MUTATE_TEACHERS',
         'MUTATE_TEACHER'
       ]),
+      ...mapActions('teachers', [
+        'SET_TEACHERS',
+        'UPDATE_TEACHER',
+        'DELETE_TEACHER'
+      ])
     },
     created(){
-      let teacher = {
-        _id: 20,
-        name: 'Thiago Dina Stuart',
-        contact: '(41) 99465-2201',
-        birthday: '20/04/1993',
-        email: 'thiago_dina@gmail.com',
-        status: true,
-        createdAt: '26/01/2023'
-      }
-      this.MUTATE_TEACHERS([teacher])
+      this.SET_TEACHERS()
     },
   }
 </script>
