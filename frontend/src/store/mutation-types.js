@@ -17,6 +17,8 @@ export const SET_STUDENT = 'SET_STUDENT'
 export const SET_STUDENTS = 'SET_STUDENTS'
 export const MUTATE_STUDENT = 'MUTATE_STUDENT'
 export const MUTATE_STUDENTS = 'MUTATE_STUDENTS'
+export const UPDATE_STUDENT = 'UPDATE_STUDENT'
+export const DELETE_STUDENT = 'DELETE_STUDENT'
 
 //==============================
 // Teachers
@@ -27,6 +29,8 @@ export const SET_TEACHER = 'SET_TEACHER'
 export const SET_TEACHERS = 'SET_TEACHERS'
 export const MUTATE_TEACHER = 'MUTATE_TEACHER'
 export const MUTATE_TEACHERS = 'MUTATE_TEACHERS'
+export const UPDATE_TEACHER = 'UPDATE_TEACHER'
+export const DELETE_TEACHER = 'DELETE_TEACHER'
 
 //==============================
 // Users
@@ -49,6 +53,8 @@ export const SET_MODALITY = 'SET_MODALITY'
 export const SET_MODALITIES = 'SET_MODALITIES'
 export const MUTATE_MODALITY = 'MUTATE_MODALITY'
 export const MUTATE_MODALITIES = 'MUTATE_MODALITIES'
+export const DELETE_MODALITY = 'DELETE_MODALITY'
+export const UPDATE_MODALITY = 'UPDATE_MODALITY'
 
 //==============================
 // Teams
@@ -59,3 +65,5 @@ export const SET_TEAM = 'SET_TEAM'
 export const SET_TEAMS = 'SET_TEAMS'
 export const MUTATE_TEAM = 'MUTATE_TEAM'
 export const MUTATE_TEAMS = 'MUTATE_TEAMS'
+export const DELETE_TEAM = 'DELETE_TEAM'
+export const UPDATE_TEAM = 'UPDATE_TEAM'
