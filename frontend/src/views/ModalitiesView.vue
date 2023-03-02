@@ -13,7 +13,7 @@
 <script>
   import MainIcon from '@/components/icons/MainIcon.vue'
   import DataTable from '@/components/data-table/DataTable.vue'
-  import { mapMutations } from 'vuex'
+  import { mapMutations, mapActions } from 'vuex'
 
   export default {
     components: {
@@ -27,7 +27,7 @@
             name: 'modality',
             label: 'Modalidade',
             align: 'left',
-            field: row => row.modality,
+            field: row => row.name,
             sortable: true
           },
           {
@@ -52,11 +52,14 @@
         this.MUTATE_MODALITY(item)
         this.TOGGLE_DRAWER()
       },
-      updateModalityStatus(id){
-        console.log(id);
+      updateModalityStatus(item){
+        item.status = !item.status
+        this.MUTATE_MODALITY(item)
+        this.UPDATE_MODALITY({status: item.status})
       },
-      deleteModality(id){
-        console.log(id);
+      deleteModality(item){
+        this.MUTATE_MODALITY(item)
+        this.DELETE_MODALITY()
       },
       openModal(item){
         this.MUTATE_MODAL_TITLE(item.modality ? item.modality : 'Nova Modalidade')
@@ -72,15 +75,14 @@
         'MUTATE_MODALITIES',
         'MUTATE_MODALITY'
       ]),
+      ...mapActions('modalities', [
+        'SET_MODALITIES',
+        'UPDATE_MODALITY',
+        'DELETE_MODALITY'
+      ])
     },
     created(){
-      let modality = {
-        _id: 150,
-        modality: 'Danças Urbanas',
-        status: true,
-        createdAt: '05/01/2023'
-      }
-      this.MUTATE_MODALITIES([modality])
+      this.SET_MODALITIES()
     },
   }
 </script>

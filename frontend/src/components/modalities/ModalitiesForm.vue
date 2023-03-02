@@ -9,7 +9,7 @@
         <div class="row q-col-gutter-sm">
           <div class="col-12">
             <q-input
-              v-model="modality.modality"
+              v-model="modality.name"
               outlined
               rounded
               label="Nome"
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
   import MainIcon from '@/components/icons/MainIcon.vue'
 
   export default {
@@ -62,6 +62,20 @@
       ...mapGetters('modalities', {
         modality: 'GET_MODALITY'
       }),
+    },
+    methods: {
+      ...mapActions('modalities', [
+        'SET_MODALITY',
+        'UPDATE_MODALITY'
+      ]),
+      createModality(){
+        this.SET_MODALITY(this.modality)
+        this.$emit('close')
+      },
+      updateModality(){
+        this.UPDATE_MODALITY(this.modality)
+        this.$emit('close')
+      }
     },
   }
 </script>
