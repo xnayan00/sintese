@@ -4,8 +4,12 @@ import {
   GET_STUDENTS,
   GET_STUDENT,
   MUTATE_STUDENTS,
-  MUTATE_STUDENT
+  MUTATE_STUDENT,
+  DELETE_STUDENT,
+  UPDATE_STUDENT
 } from '../mutation-types.js'
+
+import http from '@/http'
 
 export default {
   namespaced: true,
@@ -33,10 +37,41 @@ export default {
   },
   actions: {
     [SET_STUDENTS] ({ commit }, value) {
-      commit('MUTATE_STUDENTS', value)
+      http.get('students')
+        .then(res => {
+          commit('MUTATE_STUDENTS', res.data.data)
+        })
+        .catch(err => {
+          console.error(err);
+        })
     },
-    [SET_STUDENT] ({ commit }, value) {
-      commit('MUTATE_STUDENT', value)
+    [SET_STUDENT] ({ state }, value) {
+      http.post('/students', value)
+        .then(res => {
+          state.all.unshift(res.data.data)
+        })
+        .catch(err => {
+          console.error(err);
+        })
     },
+    [UPDATE_STUDENT] ({ state }, value) {
+      http.patch(`/students/${state.current._id}`, value)
+        .then(() => {
+          // 
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    },
+    [DELETE_STUDENT] ({ state }) {
+      http.delete(`/students/${state.current._id}`)
+        .then(() => {
+          let idx = state.all.indexOf(state.current)
+          state.all.splice(idx, 1)
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    }
   }
 }

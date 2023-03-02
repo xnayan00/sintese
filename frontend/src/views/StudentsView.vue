@@ -24,7 +24,7 @@
 <script>
   import MainIcon from '@/components/icons/MainIcon.vue'
   import DataTable from '@/components/data-table/DataTable.vue'
-  import { mapMutations } from 'vuex'
+  import { mapMutations, mapActions } from 'vuex'
 
   export default {
     components: {
@@ -77,11 +77,14 @@
         this.MUTATE_STUDENT(item)
         this.TOGGLE_DRAWER()
       },
-      updateStudentStatus(id){
-        console.log(id);
+      updateStudentStatus(item){
+        item.status = !item.status
+        this.MUTATE_STUDENT(item)
+        this.UPDATE_STUDENT({status: item.status})
       },
-      deleteStudent(id){
-        console.log(id);
+      deleteStudent(item){
+        this.MUTATE_STUDENT(item)
+        this.DELETE_STUDENT()
       },
       openModal(item){
         this.MUTATE_MODAL_TITLE(item.name ? item.name : 'Novo Aluno')
@@ -97,19 +100,14 @@
         'MUTATE_STUDENTS',
         'MUTATE_STUDENT'
       ]),
+      ...mapActions('students', [
+        'SET_STUDENTS',
+        'UPDATE_STUDENT',
+        'DELETE_STUDENT'
+      ])
     },
     created(){
-      let student = {
-        _id: 15,
-        name: 'Yan Ricardo Mendes',
-        contact: '(41) 99878-8765',
-        birthday: '15/02/1997',
-        email: 'yan_mendes.18@outlook.com',
-        currentClass: 'danças urbanas',
-        status: true,
-        createdAt: '25/10/2020'
-      }
-      this.MUTATE_STUDENTS([student])
+      this.SET_STUDENTS()
     },
   }
 </script>

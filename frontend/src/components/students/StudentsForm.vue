@@ -89,7 +89,6 @@
           </div>
           <div class="col-6">
             <q-select
-              v-model="student.classId"
               outlined
               rounded
               dense
@@ -98,7 +97,6 @@
           </div>
           <div class="col-5">
             <q-input
-              v-model="student.classId"
               outlined
               rounded
               dense
@@ -151,7 +149,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
   import MainIcon from '@/components/icons/MainIcon.vue'
 
   export default {
@@ -198,6 +196,20 @@
         let birthdayYear = this.student.birthday.split('/')[2]
 
         return currentYear - birthdayYear
+      }
+    },
+    methods: {
+      ...mapActions('students', [
+        'SET_STUDENT',
+        'UPDATE_STUDENT'
+      ]),
+      createStudent(){
+        this.SET_STUDENT(this.student)
+        this.$emit('close')
+      },
+      updateStudent(){
+        this.UPDATE_STUDENT(this.student)
+        this.$emit('close')
       }
     },
   }
