@@ -10,6 +10,9 @@
           <div class="col-6">
             <q-select
               v-model="team.modality"
+              :options="modalities"
+              option-value="_id"
+              option-label="name"
               outlined
               rounded
               label="Modalidade"
@@ -18,6 +21,9 @@
           <div class="col-6">
             <q-select
               v-model="team.teacher"
+              :options="teachers"
+              option-value="_id"
+              option-label="name"
               outlined
               rounded
               label="Professor"
@@ -79,11 +85,23 @@
       ...mapGetters('teams', {
         team: 'GET_TEAM'
       }),
+      ...mapGetters('modalities', {
+        modalities: 'GET_MODALITIES'
+      }),
+      ...mapGetters('teachers', {
+        teachers: 'GET_TEACHERS'
+      })
     },
     methods: {
       ...mapActions('teams', [
         'SET_TEAM',
         'UPDATE_TEAM'
+      ]),
+      ...mapActions('modalities', [
+        'SET_MODALITIES'
+      ]),
+      ...mapActions('teachers', [
+        'SET_TEACHERS'
       ]),
       createTeam(){
         this.SET_TEAM(this.team)
@@ -94,5 +112,9 @@
         this.$emit('close')
       }
     },
+    created(){
+      this.SET_MODALITIES()
+      this.SET_TEACHERS()
+    }
   }
 </script>

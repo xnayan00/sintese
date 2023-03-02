@@ -35,24 +35,17 @@
       return {       
         columns: [
           {
-            name: 'code',
-            label: 'Código',
-            align: 'left',
-            field: row => row.code,
-            sortable: true
-          },
-          {
             name: 'modality',
             label: 'Modalidade',
             align: 'left',
-            field: row => row.modality,
+            field: row => row.modality ? row.modality.name : '',
             sortable: true
           },
           {
             name: 'teacher',
             label: 'Professor',
             align: 'left',
-            field: row => row.teacher,
+            field: row => row.teacher ? row.teacher.name : '',
             sortable: true
           },
           {
