@@ -6,7 +6,16 @@
           v-model="modality.modality"
           outlined
           rounded
-          label="Nome da modalidade"
+          label="Nome"
+        />
+      </div>
+      <div class="col-12">
+        <q-input
+          v-model="modality.description"
+          outlined
+          rounded
+          type="textarea"
+          label="Descrição"
         />
       </div>
     </div>
