@@ -4,7 +4,7 @@ module.exports.index = async (req, res) => {
     try {
         const users = await UsersModel.find().sort({ createdAt: -1 })
 
-        if(users.length == 0) return res.status(200).json({msg: "Nenhum usuário encontrado"})
+        if(users.length == 0) return res.status(200).json({msg: "Nenhum usuário encontrado", data: []})
     
         await res.status(201).json({msg: "Usuários recuperados com sucesso.", data: users})
     } catch (err) {

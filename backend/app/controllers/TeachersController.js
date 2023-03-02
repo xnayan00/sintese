@@ -4,7 +4,7 @@ module.exports.index = async (req, res) => {
     try {
         const teachers = await TeachersModel.find().sort({ createdAt: -1 })
 
-        if(teachers.length == 0) return res.status(200).json({msg: "Nenhum registro encontrado"})
+        if(teachers.length == 0) return res.status(200).json({msg: "Nenhum registro encontrado", data: []})
     
         await res.status(201).json({msg: "registros recuperados com sucesso.", data: teachers})
     } catch (err) {
