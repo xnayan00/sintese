@@ -1,15 +1,21 @@
 const StudentsModel = require("../models/StudentsModel")
 
 module.exports.index = async (req, res) => {
-    try {
-        const students = await StudentsModel.find().sort({ createdAt: -1 })
+  const populateObj = {
+    path: 'teams.teamId',
+    populate: {
+      path: 'modality teacher'
+    },
+  }
+  try {
+      const students = await StudentsModel.find().sort({ createdAt: -1 }).populate(populateObj)
 
-        if(students.length == 0) return res.status(200).json({msg: "Nenhum registro encontrado", data: []})
-    
-        await res.status(201).json({msg: "registros recuperados com sucesso.", data: students})
-    } catch (err) {
-        await res.status(500).json(err.message)
-    } 
+      if(students.length == 0) return res.status(200).json({msg: "Nenhum registro encontrado", data: []})
+  
+      await res.status(201).json({msg: "registros recuperados com sucesso.", data: students})
+  } catch (err) {
+      await res.status(500).json(err.message)
+  } 
 }
 
 module.exports.store = async (req, res) => {
