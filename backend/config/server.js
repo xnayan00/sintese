@@ -36,6 +36,9 @@ app.use("/modalities", ModalitiesRoutes)
 const InvoicingsRoutes = require("../app/routes/InvoicingsRoutes.js")
 app.use("/invoicings", InvoicingsRoutes)
 
+const OutgoingsRoutes = require("../app/routes/OutgoingsRoutes.js")
+app.use("/outgoings", OutgoingsRoutes)
+
 //===========================
 // Autoload da conexão com o
 // banco de dados
