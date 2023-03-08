@@ -12,7 +12,7 @@
         <q-item-label class="text-weight-bold text-grey-7">{{ item.contributor.name }}</q-item-label>
         <q-item-label overline>{{ convertDate(item.createdAt) }}</q-item-label>
         <q-item-label>
-          <q-chip class="q-ml-none" size="12px" color="green-11">{{ item.reference.modality.name }}</q-chip>
+          <q-chip class="q-ml-none" size="12px" color="green-2">{{ item.reference.modality.name }}</q-chip>
         </q-item-label>
       </q-item-section>
 

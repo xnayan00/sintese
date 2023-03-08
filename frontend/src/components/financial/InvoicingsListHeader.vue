@@ -37,16 +37,14 @@
 <script>
   import MainIcon from '@/components/icons/MainIcon.vue'
   import InvoicingsForm from './InvoicingsForm.vue'
-  import { useConvertDate } from '@/filters/ConvertDate.js'
   import { useConvertMoney } from '@/filters/ConvertMoney.js'
   import { mapGetters } from 'vuex'
 
   export default {
     setup(){
-      const convertDate = useConvertDate
       const convertMoney = useConvertMoney
 
-      return { convertDate, convertMoney }
+      return { convertMoney }
     },
     components: {
       MainIcon,
