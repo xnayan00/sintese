@@ -6,7 +6,9 @@ import {
   MUTATE_STUDENTS,
   MUTATE_STUDENT,
   DELETE_STUDENT,
-  UPDATE_STUDENT
+  UPDATE_STUDENT,
+  ADD_TEAM,
+  REMOVE_TEAM
 } from '../mutation-types.js'
 
 import http from '@/http'
@@ -33,7 +35,17 @@ export default {
     },
     [MUTATE_STUDENT] (state, value) {
       state.current = value
-    }
+    },
+    [ADD_TEAM] (state, value) {
+      if(state.current.teams){
+        state.current.teams.push(value)
+      } else {
+        state.current.teams = [value]
+      }
+    },
+    [REMOVE_TEAM] (state, idx) {
+      state.current.teams.splice(idx, 1)
+    },
   },
   actions: {
     [SET_STUDENTS] ({ commit }, value) {

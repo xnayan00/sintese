@@ -19,6 +19,8 @@ export const MUTATE_STUDENT = 'MUTATE_STUDENT'
 export const MUTATE_STUDENTS = 'MUTATE_STUDENTS'
 export const UPDATE_STUDENT = 'UPDATE_STUDENT'
 export const DELETE_STUDENT = 'DELETE_STUDENT'
+export const ADD_TEAM = 'ADD_TEAM'
+export const REMOVE_TEAM = 'REMOVE_TEAM'
 
 //==============================
 // Teachers
