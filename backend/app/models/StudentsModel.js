@@ -17,11 +17,12 @@ const StudentsSchema = new mongoose.Schema(
     },
     teams: [
       {
-        team_id: {
+        teamId: {
           type: mongoose.SchemaTypes.ObjectId,
           ref: "teams"
         },
-        currency: Number
+        currency: Number,
+        dueDate: String
       }
     ]
   },
