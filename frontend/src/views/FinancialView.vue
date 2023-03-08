@@ -1,17 +1,18 @@
 <template>
   <q-card class="q-pa-lg" flat>
+    
     <section class="row">
-      <div class="q-mb-xl col-12">
-        <CashRegister />
-      </div>
-    </section>
-
-    <section class="row q-mb-xl">
       <div class="col-12">
         <FinancialFilter />
       </div>
     </section>
-
+    
+    <section class="row">
+      <div class="q-mb-lg col-12">
+        <CashRegister />
+      </div>
+    </section>
+    
     <div class="row">
       <div class="col-12 col-md-6">
         <InvoicingsListHeader />

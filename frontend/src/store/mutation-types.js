@@ -75,7 +75,6 @@ export const UPDATE_TEAM = 'UPDATE_TEAM'
 //==============================
 export const GET_INVOICING = 'GET_INVOICING'
 export const GET_INVOICINGS = 'GET_INVOICINGS'
-export const GET_TOTAL = 'GET_TOTAL'
 export const SET_INVOICING = 'SET_INVOICING'
 export const SET_INVOICINGS = 'SET_INVOICINGS'
 export const MUTATE_INVOICING = 'MUTATE_INVOICING'
@@ -83,3 +82,21 @@ export const MUTATE_INVOICINGS = 'MUTATE_INVOICINGS'
 export const DELETE_INVOICING = 'DELETE_INVOICING'
 export const ADD_INVOICING = 'ADD_INVOICING'
 export const REMOVE_INVOICING = 'REMOVE_INVOICING'
+
+//==============================
+// Outgoings
+//==============================
+export const GET_OUTGOING = 'GET_OUTGOING'
+export const GET_OUTGOINGS = 'GET_OUTGOINGS'
+export const SET_OUTGOING = 'SET_OUTGOING'
+export const SET_OUTGOINGS = 'SET_OUTGOINGS'
+export const MUTATE_OUTGOING = 'MUTATE_OUTGOING'
+export const MUTATE_OUTGOINGS = 'MUTATE_OUTGOINGS'
+export const DELETE_OUTGOING = 'DELETE_OUTGOING'
+export const ADD_OUTGOING = 'ADD_OUTGOING'
+export const REMOVE_OUTGOING = 'REMOVE_OUTGOING'
+
+//==============================
+// Invoicings & Outgoings
+//==============================
+export const GET_TOTAL = 'GET_TOTAL'

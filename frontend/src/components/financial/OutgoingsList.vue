@@ -1,44 +1,79 @@
 <template>
-  
+
   <h5 v-if="outgoings.length == 0" class="text-center text-grey-5 q-py-xl">Nenhuma saída cadastrada</h5>
 
   <q-list v-else padding>
     <q-item
-      v-for="n in outgoings"
-      :key="n"
+      v-for="(item, idx) in outgoings"
+      :key="idx"
       class="list-item"
     >
       <q-item-section>
-        <q-item-label class="text-weight-bold text-grey-7">Thiago D. Stuart</q-item-label>
-        <q-item-label overline>11/01/2023</q-item-label>
+        <q-item-label class="text-weight-bold text-grey-7">
+          {{ item.receiver ? item.receiver.name : item.customReceiver }}
+        </q-item-label>
+        <q-item-label overline>{{ convertDate(item.createdAt) }}</q-item-label>
+        <q-item-label>
+          <q-chip class="q-ml-none" size="12px" color="red-2">
+            {{ item.team ? item.team.modality.name : convertOutgoingsType(item.type) }}
+          </q-chip>
+        </q-item-label>
       </q-item-section>
 
       <q-item-section side center>
-        <q-item-label class="text-h5 text-negative">R$ 50,00</q-item-label>
+        <q-item-label class="text-h5 text-negative">{{ convertMoney(item.price) }}</q-item-label>
+      </q-item-section>
+      
+      <q-item-section class="absolute-right" side top>
+        <q-btn @click="deleteOutgoing(item)" round flat size="sm">
+          <q-icon color="negative">
+            <MainIcon name="close" />
+          </q-icon>
+        </q-btn>
       </q-item-section>
     </q-item>
+
   </q-list>
 </template>
 
 <script>
+  import MainIcon from "@/components/icons/MainIcon.vue"
+  import { useConvertDate } from '@/filters/ConvertDate.js'
+  import { useConvertMoney } from '@/filters/ConvertMoney.js'
+  import { useConvertOutgoingsType } from '@/filters/ConvertOutgoingsType.js'
+  import { mapGetters, mapMutations, mapActions } from 'vuex'
+
   export default {
-    data(){
-      return {
-        outgoings: [],
-        totalOutgoings: null
-      }
+    setup(){
+      const convertDate = useConvertDate
+      const convertMoney = useConvertMoney
+      const convertOutgoingsType = useConvertOutgoingsType
+
+      return { convertDate, convertMoney, convertOutgoingsType }
+    },
+    components: {
+      MainIcon
+    },
+    computed: {
+      ...mapGetters('outgoings', {
+        outgoings: 'GET_OUTGOINGS'
+      })
     },
     methods: {
-      getOutgoings(){
-        http.get('/getOutgoings')
-          .then(res => {
-            this.totalOutgoings = res.data.data.total
-            this.outgoings = res.data.data.outgoings
-          })
-          .catch(e => {
-            console.error(e);
-          })
+      ...mapActions('outgoings', [
+        'SET_OUTGOINGS',
+        'DELETE_OUTGOING'
+      ]),
+      ...mapMutations('outgoings', [
+        'MUTATE_OUTGOING'
+      ]),
+      deleteOutgoing(item){
+        this.MUTATE_OUTGOING(item)
+        this.DELETE_OUTGOING()
       },
+    },
+    created(){
+      this.SET_OUTGOINGS()
     }
   }
 </script>
