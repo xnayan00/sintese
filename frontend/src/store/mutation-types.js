@@ -69,3 +69,17 @@ export const MUTATE_TEAM = 'MUTATE_TEAM'
 export const MUTATE_TEAMS = 'MUTATE_TEAMS'
 export const DELETE_TEAM = 'DELETE_TEAM'
 export const UPDATE_TEAM = 'UPDATE_TEAM'
+
+//==============================
+// Invoicings
+//==============================
+export const GET_INVOICING = 'GET_INVOICING'
+export const GET_INVOICINGS = 'GET_INVOICINGS'
+export const GET_TOTAL = 'GET_TOTAL'
+export const SET_INVOICING = 'SET_INVOICING'
+export const SET_INVOICINGS = 'SET_INVOICINGS'
+export const MUTATE_INVOICING = 'MUTATE_INVOICING'
+export const MUTATE_INVOICINGS = 'MUTATE_INVOICINGS'
+export const DELETE_INVOICING = 'DELETE_INVOICING'
+export const ADD_INVOICING = 'ADD_INVOICING'
+export const REMOVE_INVOICING = 'REMOVE_INVOICING'

@@ -5,6 +5,7 @@ import teachers from './modules/TeachersModule.js'
 import users from './modules/UsersModule.js'
 import modalities from './modules/ModalitiesModule.js'
 import teams from './modules/TeamsModule.js'
+import invoicings from './modules/InvoicingsModule.js'
 
 const store = createStore({
   modules: {
@@ -13,7 +14,8 @@ const store = createStore({
     teachers,
     users,
     modalities,
-    teams
+    teams,
+    invoicings
   }
 })
 
