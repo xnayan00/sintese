@@ -19,7 +19,7 @@
           <q-toolbar-title>{{ currentDate }}</q-toolbar-title>
 
           <q-btn icon="event" round color="white" flat>
-            <q-popup-proxy @before-show="updateProxy" cover transition-show="scale" transition-hide="scale">
+            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
               <q-date range :locale="locale" v-model="proxyDate" minimal>
                 <div class="row items-center justify-end q-gutter-sm">
                   <q-btn label="Cancelar" color="primary" flat v-close-popup />
@@ -48,7 +48,7 @@
                 Entradas
               </q-item-label>
               <q-item-label class="text-subtitle2 text-positive text-weight-bold">
-                R$ 1.500,00
+                {{ convertMoney(totalInvoicings) }}
               </q-item-label>
             </q-item-section>
 
@@ -90,11 +90,26 @@
                             outlined
                             rounded
                           >
-                          <template v-slot:option="scope">
-                            <q-item v-bind="scope.itemProps">
+                          <template v-slot:selected-item="{ opt }">
+                            {{ opt.modality.name + ' - ' + opt.teacher.name }}
+                          </template>
+                          <template v-slot:option="{ opt, toggleOption, selected }">
+                            <q-item :class="{'bg-red-1': selected}" @click="toggleOption(opt)" clickable>
                               <q-item-section>
-                                <q-item-label>{{ scope.opt._id }}</q-item-label>
-                                <q-item-label caption>{{ scope.opt.createdAt }}</q-item-label>
+                                <q-item-label>
+                                  <q-icon color="primary">
+                                    <MainIcon name="account-tie" />
+                                  </q-icon>
+                                  {{ opt.teacher.name }}
+                                </q-item-label>
+                                <q-item-label caption>
+                                  <q-chip size="sm" outline class="text-weight-bold" color="primary">
+                                    {{ opt.modality.name }}
+                                  </q-chip>
+                                </q-item-label>
+                              </q-item-section>
+                              <q-item-section side top>
+                                {{ opt.startTime + ' - ' + opt.endTime }}
                               </q-item-section>
                             </q-item>
                           </template>
@@ -102,7 +117,7 @@
                         </div>
                         <div class="col-4">
                           <q-input
-                            v-model="invoicing.price"
+                            v-model.number="invoicing.price"
                             label="Valor R$"
                             outlined
                             rounded
@@ -124,24 +139,27 @@
         
         <h6 v-if="invoicings.length == 0" class="text-center text-grey-5">Nenhuma entrada</h6>
 
-        <q-scroll-area
-          :thumb-style="thumbStyle"
-          :bar-style="barStyle"
-          style="height: 65vh"
-        >
+        <q-scroll-area style="height: 65vh">
         <q-list padding>
             <q-item v-for="(item, idx) in invoicings" class="list-item" :key="idx">
-              <!-- <q-item-section>
-                <q-item-label class="text-weight-bold text-grey-7">{{ item.contributor }}</q-item-label>
-                <q-item-label overline>{{ item.createdAt }}</q-item-label>
+              <q-item-section>
+                <q-item-label class="text-weight-bold text-grey-7">{{ item.contributor.name }}</q-item-label>
+                <q-item-label overline>{{ convertDate(item.createdAt) }}</q-item-label>
                 <q-item-label>
-                  <q-chip class="q-ml-none" size="12px" color="green-11">{{ item.reference }}</q-chip>
+                  <q-chip class="q-ml-none" size="12px" color="green-11">{{ item.reference.modality.name }}</q-chip>
                 </q-item-label>
-              </q-item-section> -->
+              </q-item-section>
 
-              
               <q-item-section side center>
-                <q-item-label class="text-h5 text-positive">{{ item.price }}</q-item-label>
+                <q-item-label class="text-h5 text-positive">{{ convertMoney(item.price) }}</q-item-label>
+              </q-item-section>
+              
+              <q-item-section class="absolute-right" side top>
+                <q-btn @click="removeInvoicing(item._id, idx)" round flat size="sm">
+                  <q-icon color="negative">
+                    <MainIcon name="close" />
+                  </q-icon>
+                </q-btn>
               </q-item-section>
             </q-item>
 
@@ -222,8 +240,6 @@
         <h6 v-if="invoicings.length == 0" class="text-center text-grey-5">Nenhuma saída</h6>
 
         <q-scroll-area
-          :thumb-style="thumbStyle"
-          :bar-style="barStyle"
           style="height: 65vh"
         >
           <q-list v-for="n in outgoings" :key="n" padding>
@@ -248,7 +264,15 @@
 <script>
   import MainIcon from '@/components/icons/MainIcon.vue'
   import http from "@/http"
+  import { useConvertDate } from '@/filters/ConvertDate.js'
+  import { useConvertMoney } from '@/filters/ConvertMoney.js'
   export default {
+    setup(){
+      const convertDate = useConvertDate
+      const convertMoney = useConvertMoney
+
+      return { convertDate, convertMoney }
+    },
     components: {
       MainIcon
     },
@@ -265,6 +289,7 @@
           to: new Date(Date.now()).toISOString().slice(0, 10).split('-').join('/'),
         },
         invoicing: {},
+        totalInvoicings: 0,
         invoicings: [],
         outgoings: [],
         contributors: [],
@@ -284,13 +309,27 @@
       }
     },
     methods: {
-      createInvoicing(){
-        http.post('/invoicings', this.invoicing)
-          .then(res => {
-            this.invoicings.unshift(res.data.data)
+      removeInvoicing(id, idx){
+        http.delete(`/invoicings/${id}`)
+          .then(() => {
+            this.invoicings.splice(idx, 1)
           })
           .catch(e => {
             console.error(e);
+          })
+      },
+      createInvoicing(){
+        http.post('/invoicings', this.invoicing)
+          .then(res => {
+            const data = res.data.data
+            this.totalInvoicings += parseInt(this.invoicing.price) 
+            this.invoicings.unshift({...this.invoicing, createdAt: data.createdAt, updatedAt: data.updatedAt})
+          })
+          .catch(e => {
+            console.error(e);
+          })
+          .finally(() => {
+            this.invoicingForm = false
           })
       },
       getStudents(){
@@ -311,18 +350,22 @@
             console.error(e);
           })
       },
+      getInvoicings(){
+        http.get('/invoicings')
+          .then(res => {
+            this.totalInvoicings = res.data.data.total
+            this.invoicings = res.data.data.invoicings
+          })
+          .catch(e => {
+            console.error(e);
+          })
+      },
     },
     created(){
       this.getStudents()
       this.getTeams()
-      http.get('/invoicings')
-        .then(res => {
-          this.invoicings = res.data.data
-        })
-        .catch(e => {
-          console.error(e);
-        })
-    },
+      this.getInvoicings()
+    }
   }
 </script>
 
