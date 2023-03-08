@@ -28,37 +28,41 @@
   import DanceBallroomIcon from './DanceBallroomIcon.vue'
   import PlusCircleIcon from './PlusCircleIcon.vue'
   import MinusCircleIcon from './MinusCircleIcon.vue'
+  import ClockIcon from './ClockIcon.vue'
+  import EditIcon from './EditIcon.vue'
 
   export default {
     props: {
       name: String
     },
     components: {
+      AccountIcon,
+      AlertCircleIcon,
       AccountGroupIcon,
       AccountSchoolIcon,
-      ClassRoomIcon,
-      AccountIcon,
-      HomeIcon,
-      HandCoinIcon,
-      LockIcon,
       AccountTieIcon,
-      DotsVerticalIcon,
-      PencilIcon,
-      TrashIcon,
-      CloseCircleIcon,
+      CakeVariantIcon,
+      CalendarIcon,
       CheckCircleIcon,
+      ClassRoomIcon,
+      CloseCircleIcon,
+      CloseIcon,
+      ClockIcon,
+      DanceBallroomIcon,
+      DotsVerticalIcon,
+      EditIcon,
       ExitIcon,
       EyeIcon,
       EmailIcon,
+      HomeIcon,
+      HandCoinIcon,
+      MinusCircleIcon,
+      LockIcon,
+      PencilIcon,
       PhoneIcon,
-      CakeVariantIcon,
-      CloseIcon,
-      AlertCircleIcon,
-      CalendarIcon,
-      WhatsappIcon,
-      DanceBallroomIcon,
       PlusCircleIcon,
-      MinusCircleIcon
+      TrashIcon,
+      WhatsappIcon,
     }
   }
 </script>
