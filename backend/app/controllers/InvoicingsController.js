@@ -10,12 +10,10 @@ module.exports.index = async (req, res) => {
   }
   try {
       const invoicings = await InvoicingsModel.find().sort({ createdAt: -1 }).populate(populateObj)
-      
-      const total = invoicings.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0)
 
       if(invoicings.length == 0) return res.status(200).json({msg: "Nenhum registro encontrado", data: []})
   
-      await res.status(200).json({msg: "registros recuperados com sucesso.", data: {invoicings: invoicings, total: total}})
+      await res.status(200).json({msg: "registros recuperados com sucesso.", data: invoicings})
   } catch (err) {
       await res.status(500).json(err.message)
   } 
