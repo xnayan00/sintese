@@ -39,6 +39,9 @@ app.use("/invoicings", InvoicingsRoutes)
 const OutgoingsRoutes = require("../app/routes/OutgoingsRoutes.js")
 app.use("/outgoings", OutgoingsRoutes)
 
+const CountersRoutes = require("../app/routes/CountersRoutes.js")
+app.use("/counters", CountersRoutes)
+
 //===========================
 // Autoload da conexão com o
 // banco de dados
