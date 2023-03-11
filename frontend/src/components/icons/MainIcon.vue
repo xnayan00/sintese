@@ -30,6 +30,8 @@
   import MinusCircleIcon from './MinusCircleIcon.vue'
   import ClockIcon from './ClockIcon.vue'
   import EditIcon from './EditIcon.vue'
+  import ArrowLeftIcon from './ArrowLeftIcon.vue'
+  import ArrowRightIcon from './ArrowRightIcon.vue'
 
   export default {
     props: {
@@ -41,6 +43,8 @@
       AccountGroupIcon,
       AccountSchoolIcon,
       AccountTieIcon,
+      ArrowLeftIcon,
+      ArrowRightIcon,
       CakeVariantIcon,
       CalendarIcon,
       CheckCircleIcon,

@@ -1,5 +1,5 @@
 <template>
-  <q-dialog :model-value="GET_MODAL" persistent>
+  <q-dialog :model-value="GET_MODAL" persistent style="min-width: 700px">
     <component
       :is="$route.name + '-form'"
       @close="TOGGLE_MODAL"

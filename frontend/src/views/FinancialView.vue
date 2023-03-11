@@ -13,6 +13,12 @@
       </div>
     </section>
     
+    <!-- <section class="row">
+      <div class="q-mb-lg col-12">
+        <IncomingsTable />
+      </div>
+    </section> -->
+    
     <div class="row">
       <div class="col-12 col-md-6">
         <InvoicingsListHeader />
@@ -40,6 +46,7 @@
   import InvoicingsList from '@/components/financial/InvoicingsList.vue'
   import OutgoingsListHeader from '@/components/financial/OutgoingsListHeader.vue'
   import OutgoingsList from '@/components/financial/OutgoingsList.vue'
+  import IncomingsTable from '@/components/financial/IncomingsTable.vue'
 
   export default {
     components: {
@@ -49,6 +56,7 @@
       InvoicingsListHeader,
       OutgoingsList,
       OutgoingsListHeader,
+      IncomingsTable
     },
   }
 </script>
